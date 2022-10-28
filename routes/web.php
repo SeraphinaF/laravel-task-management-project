@@ -20,12 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('projects', ProjectController::class);
 Route::resource('categories', CategoryController::class);
+Route::get('/search', [ProjectController::class, 'search']);
 
-Route::get('wizard', function () {
+Route::get('/wizard', function () {
     return view('default');
 });
 
-Route::get('/delete/{id}', [\App\Http\Controllers\ProjectController::class, 'delete'])->name('delete');
+Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('delete');
+Route::get('/details/{id}', [ProjectController::class, 'details'])->name('details');
 
 Auth::routes();
 

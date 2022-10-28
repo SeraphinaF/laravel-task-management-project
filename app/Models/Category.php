@@ -11,13 +11,14 @@ class Category extends Model
 
     protected $table ='categories';
 
+    protected $fillable =
+        [
+        'name'
+        ];
     //Tells which model to connect to and that there are multiple projects for one category
     public function projects()
     {
-        return $this->hasMany('App\Project');
+        return $this->hasMany('App\Project', 'category_id');
     }
 
-    protected $fillable = [
-        'name'
-    ];
 }

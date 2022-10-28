@@ -24,11 +24,6 @@ class Project extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Category');
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany('App\Task');
+        return $this->belongsTo('App\Category',);
     }
 }

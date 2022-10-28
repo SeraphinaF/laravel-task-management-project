@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use JetBrains\PhpStorm\NoReturn;
 
 
 class ProjectController extends Controller
@@ -19,11 +20,12 @@ class ProjectController extends Controller
         $projects = Project::all();
         $categories = Category::all();
         return view('projects.view', compact('projects','categories'));
-        //enkelvoud of meervoud?
-
-//        $data = Project::all();
-//        $categories = Category::all();
-//        return view ('projects.view')->withProjects($data);
+//        //enkelvoud of meervoud?
+//        $categories = Project::find('category_id');
+//        if($categories !== null) {
+//            $projects = $categories->projects;
+//            return view('projects.view', compact ('projects', 'categories'));
+//        }
     }
 
     /**
@@ -66,7 +68,7 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function details(Project $project)
     {
         //Show task page
 //        $project = Project::find('project_id', [$project]);
@@ -75,8 +77,14 @@ class ProjectController extends Controller
 //
 //        $project = Project::all();
 //        return view("projects.task", ["project"=>$project]);
-        $project = Project::find($id, );
-        return view('projects.task',['project'=>$project]);
+
+//        $project = Project::find($id, );
+//        return view('projects.task',['project'=>$project]);
+//        dd($project);
+//        $projects = Project::where('id', $project)->first();
+//        return view('projects.task', ['project'=>$project]);
+            $project = Project::find('id');
+            return view('projects.task', compact( 'project'));
     }
 
     /**
@@ -114,8 +122,17 @@ class ProjectController extends Controller
 
         if ($project != null) {
             $project->delete();
-            return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!!']);
+            return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
             }
         }
+
+    public function search (Request $request){
+        $search_text =$request->query('search');
+//        dd($request);
+        $projects = Project::where('project_name','like','%'. $search_text. '%')->get();
+        $categories = Category::all();
+        return view( 'projects.view', compact('projects', 'categories'));
     }
+
+}
 
