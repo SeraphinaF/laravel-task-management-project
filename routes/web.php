@@ -25,7 +25,10 @@ Route::get('wizard', function () {
     return view('default');
 });
 
+Route::get('/delete/{id}', [\App\Http\Controllers\ProjectController::class, 'delete'])->name('delete');
+
 Auth::routes();
+
 
 //niet nodig
 //Route::get('/index', 'App\Http\Controllers\ProjectController@index');

@@ -16,8 +16,14 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $data = Project::all();
-        return view ('projects.view')->withProjects($data);
+        $projects = Project::all();
+        $categories = Category::all();
+        return view('projects.view', compact('projects','categories'));
+        //enkelvoud of meervoud?
+
+//        $data = Project::all();
+//        $categories = Category::all();
+//        return view ('projects.view')->withProjects($data);
     }
 
     /**
@@ -29,8 +35,8 @@ class ProjectController extends Controller
     {
         //Find categories
         //Store in variables and pass into view
-        $categories = Category::all();
-        return view('projects.create', )->withCategories($categories);
+//        $categories = Category::all();
+//        return view('projects.create', )->withCategories($categories);
     }
 
     /**
@@ -60,15 +66,17 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($id)
     {
         //Show task page
 //        $project = Project::find('project_id', [$project]);
 //        return view('projects.task')with->;
 //        return view("projects.task", ["project"=>$project]);
-
-        $project = Project::all();
-        return view("projects.task", ["project"=>$project]);
+//
+//        $project = Project::all();
+//        return view("projects.task", ["project"=>$project]);
+        $project = Project::find($id, );
+        return view('projects.task',['project'=>$project]);
     }
 
     /**
@@ -100,8 +108,14 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function delete($id)
     {
-        //
+        $project = Project::where('id', $id)->first();
+
+        if ($project != null) {
+            $project->delete();
+            return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!!']);
+            }
+        }
     }
-}
+
