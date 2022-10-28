@@ -17,7 +17,7 @@ class CategoryController extends Controller
         //Display view of categories
         //Maybe form to create new category
 //        $category = Project::all();
-//        return view ('categories.index')->withCategories($category);
+//        return view ('projects.view')->withCategories($category);
     }
 
     /**

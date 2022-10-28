@@ -90,7 +90,7 @@
                     </tr>
                     <tr>
                         <td>Category:</td>
-                        <td><strong>{{$category_id}}</strong></td>
+                        <td><strong>{{$category->name}}</strong></td>
                     </tr>
                     <tr>
                         <td>Deadline:</td>

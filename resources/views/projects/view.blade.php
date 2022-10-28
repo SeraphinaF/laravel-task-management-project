@@ -6,6 +6,10 @@
         <a href="{{ route('projects.create') }}">Add new category</a>
     </div>
         <table class="">
+            @foreach($categories as $category)
+            <tr>
+                <td>{{$category['name']}}</td>
+            </tr>
             <tr>
                 <td><strong>Project Name</strong></td>
                 <td><strong>Deadline</strong></td>
@@ -14,8 +18,12 @@
             <tr>
                 <td>{{$project['project_name']}}</td>
                 <td>{{$project['deadline']}}</td>
-                <td><a href="{{ route('projects.show', $project->id) }}">View</a></td>
+                <td><a href="{{ route('projects.show', $project->id) }}"--}}>View</a></td>
+                <td><a href="{{ route('projects.destroy', $project->id) }}">Delete</a></td>
+{{--                href="{{ route('projects.show', $project->id) }}"--}}
+{{--                href="/projects/{{$project->id}}"--}}
             </tr>
+            @endforeach
             @endforeach
         </table>
     </div>

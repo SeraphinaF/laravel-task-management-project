@@ -63,7 +63,12 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //Show task page
-        return view('projects.task');
+//        $project = Project::find('project_id', [$project]);
+//        return view('projects.task')with->;
+//        return view("projects.task", ["project"=>$project]);
+
+        $project = Project::all();
+        return view("projects.task", ["project"=>$project]);
     }
 
     /**

@@ -69,12 +69,11 @@ class Wizard extends Component
             'task' => $this->task,
         ]);
 
-//        dd($this);
         $this->successMessage = 'Product Created Successfully.';
 
         $this->clearForm();
 
-        return redirect()->route('projects.view');
+        return redirect()->route('projects.index');
 
 //        $this->currentStep = 1;
 
