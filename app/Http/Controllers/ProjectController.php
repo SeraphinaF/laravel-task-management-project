@@ -20,13 +20,6 @@ class ProjectController extends Controller
         $projects = Project::all();
         $categories = Category::all();
         return view('projects.view', compact('projects','categories'));
-
-//        //enkelvoud of meervoud?
-//        $categories = Project::find('category_id');
-//        if($categories !== null) {
-//            $projects = $categories->projects;
-//            return view('projects.view', compact ('projects', 'categories'));
-//        }
     }
 
     /**
@@ -36,10 +29,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //Find categories
-        //Store in variables and pass into view
-//        $categories = Category::all();
-//        return view('projects.create', )->withCategories($categories);
+
     }
 
     /**
@@ -51,9 +41,10 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'project_name' => 'required|min:1|max:30',
+            'project_name' => 'required',
             'category_id' => 'required',
             'deadline' => 'required',
+            'task'=>'required',
         ]);
 
         $project = Project::create($request->all());
@@ -69,24 +60,6 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function details(Project $project)
-    {
-        //Show task page
-//        $project = Project::find('project_id', [$project]);
-//        return view('projects.task')with->;
-//        return view("projects.task", ["project"=>$project]);
-//
-//        $project = Project::all();
-//        return view("projects.task", ["project"=>$project]);
-
-//        $project = Project::find($id, );
-//        return view('projects.task',['project'=>$project]);
-//        dd($project);
-//        $projects = Project::where('id', $project)->first();
-//        return view('projects.task', ['project'=>$project]);
-            $project = Project::find('id');
-            return view('projects.task', compact( 'project'));
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -98,12 +71,16 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::find($id);
-        return view('projects.show')->with('project', $project);
+        $categories = Category::find($id);
+        return view('projects.show')->with('project', $project)->with('categories', $categories);
     }
 
 
-    public function edit(Project $project)
+    public function edit($id)
     {
+        $project = Project::find($id);
+        $categories = Category::all();
+        return view('projects.update')->with('project', $project)->with('categories', $categories);
     }
 
     /**

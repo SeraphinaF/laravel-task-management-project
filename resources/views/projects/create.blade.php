@@ -61,7 +61,6 @@
                             </div>
                             <div class="action">
                                 <button class="action-button" type="submit">Get started</button>
-                                //send to next form
                             </div>
                         </form>
                     </div>

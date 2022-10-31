@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label for="title">Project Name:</label>
                     <input type="text" name="project_name" wire:model="project_name" class="form-control" id="taskTitle">
-{{--                    @error('project_name') <span class="error">{{ $message }}</span> @enderror--}}
+                    @error('project_name') <span class="error">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-group">
                     <label for="description">Category:</label>
@@ -41,17 +41,13 @@
                             <option value="{{$category->id}}">{{$category->name}}</option>
                         @endforeach
                     </select>
+                    @error('category') <span class="error">{{ $message }}</span> @enderror
 {{--                    <input  name="category_id" wire:model="category_id" class="form-control" id="productAmount"/>--}}
-{{--                    @error('category') <span class="error">{{ $message }}</span> @enderror--}}
                 </div>
-{{--                <div class="form-group">--}}
-{{--                    <label for="description">Deadline:</label>--}}
-{{--                    <textarea type="datetime-local" name="deadline" wire:model="deadline" class="form-control"  id="taskDescription">{{{ $description ?? '' }}}</textarea>--}}
-{{--                    @error('deadline') <span class="error">{{ $message }}</span> @enderror--}}
-{{--                </div>--}}
                 <div class="form-group">
                     <label class="input-label">Deadline:</label>
                     <input type="datetime-local" name="deadline"  wire:model="deadline" class="form-control"  id="taskDescription">
+                    @error('deadline') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
                 <button class="btn btn-primary nextBtn btn-lg pull-right" wire:click="firstStepSubmit" type="button" >Next</button>
@@ -65,7 +61,7 @@
                 <div class="form-group">
                     <label for="description">Task:</label>
                     <textarea type="text" name="task" wire:model="task" class="form-control" id="taskDescription">{{{ $description ?? '' }}}</textarea>
-{{--                    @error('task') <span class="error">{{ $message }}</span> @enderror--}}
+                    @error('task') <span class="error">{{ $message }}</span> @enderror
                 </div>
 {{--                <div class="form">--}}
 {{--                    <label for="description">Task:</label>--}}
