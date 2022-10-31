@@ -31,10 +31,13 @@
                         @endif
                         <form class="card-form" action="{{route('projects.store')}}" method="post">
                             @csrf
-
+{{--                            {{$errors}}--}}
                             <div class="input">
                                 <input type="text" name="project_name" class="input-field" value="" >
                                 <label class="input-label">Project name</label>
+                                @error('project_name')
+                                <div class="error">{{$message}}</div>
+                                @enderror
                             </div>
 
                             <label class="input-label">Category</label>
@@ -43,11 +46,18 @@
                                 @foreach($categories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
+
+                                @error('category_id')
+                                <div class="error">{{$message}}</div>
+                                @enderror
                             </select>
 
                             <div class="input">
                                 <input type="datetime-local" name="deadline" class="input-field" value="" >
                                 <label class="input-label">Deadline</label>
+                                @error('deadline')
+                                <div class="error">{{$message}}</div>
+                                @enderror
                             </div>
                             <div class="action">
                                 <button class="action-button" type="submit">Get started</button>

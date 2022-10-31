@@ -23,7 +23,7 @@
             <tr>
                 <td>{{$project['project_name']}}</td>
                 <td>{{$project['deadline']}}</td>
-                <td><a href="{{ route('details', ['id'=>$project['id']])}}">View</a></td>
+                <td><a href="{{ route('show', ['id'=>$project['id']])}}">View</a></td>
                 <td><a href="{{ route('delete', ['id'=> $project['id']])}}">Delete</a></td>
 {{--                href="{{ route('projects.show', $project->id) }}"--}}
 {{--                href="/projects/{{$project->id}}"--}}

@@ -5,7 +5,7 @@
             {{ $successMessage }}
         </div>
     @endif
-
+<form>
     <div class="stepwizard">
         <div class="stepwizard-row setup-panel">
             <div class="stepwizard-step">
@@ -107,4 +107,5 @@
             </div>
         </div>
     </div>
+    </form>
 </div>

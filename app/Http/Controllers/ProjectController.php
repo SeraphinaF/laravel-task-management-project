@@ -20,6 +20,7 @@ class ProjectController extends Controller
         $projects = Project::all();
         $categories = Category::all();
         return view('projects.view', compact('projects','categories'));
+
 //        //enkelvoud of meervoud?
 //        $categories = Project::find('category_id');
 //        if($categories !== null) {
@@ -50,7 +51,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'project_name' => 'required|max:255',
+            'project_name' => 'required|min:1|max:30',
             'category_id' => 'required',
             'deadline' => 'required',
         ]);
@@ -93,9 +94,16 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
+
+    public function show($id)
+    {
+        $project = Project::find($id);
+        return view('projects.show')->with('project', $project);
+    }
+
+
     public function edit(Project $project)
     {
-        //
     }
 
     /**
@@ -128,7 +136,6 @@ class ProjectController extends Controller
 
     public function search (Request $request){
         $search_text =$request->query('search');
-//        dd($request);
         $projects = Project::where('project_name','like','%'. $search_text. '%')->get();
         $categories = Category::all();
         return view( 'projects.view', compact('projects', 'categories'));

@@ -27,7 +27,7 @@ Route::get('/wizard', function () {
 });
 
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('delete');
-Route::get('/details/{id}', [ProjectController::class, 'details'])->name('details');
+Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('show');
 
 Auth::routes();
 
