@@ -6,7 +6,7 @@
 {{--        <a href="{{ route('#') }}">Add new category</a>--}}
     </div>
 
-    <form method="get" action="{{url('/search')}}">
+    <form method="put" action="{{url('/search')}}" >
         <input type="text" name="search" placeholder="Find projects">
     </form>
         <table class="">

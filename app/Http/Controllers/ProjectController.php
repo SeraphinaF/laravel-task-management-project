@@ -15,6 +15,12 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $projects = Project::all();
@@ -90,9 +96,25 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'project_name' => 'required',
+            'category_id' => 'required',
+            'deadline' => 'required',
+            'task'=>'required',
+        ]);
+
+        $project = Project::find($id);
+
+        $project->project_name = $request->input('project_name');
+        $project->category_id = $request->input('category_id');
+        $project->deadline = $request->input('deadline');
+        $project->task = $request->input('task');
+
+        $project->save();
+
+        redirect()->route('projects.show', $project->id);
     }
 
     /**
