@@ -31,7 +31,6 @@
                         @endif
                         <form class="card-form" action="{{route('projects.store')}}" method="post">
                             @csrf
-{{--                            {{$errors}}--}}
                             <div class="input">
                                 <input type="text" name="project_name" class="input-field" value="" >
                                 <label class="input-label">Project name</label>
@@ -58,6 +57,11 @@
                                 @error('deadline')
                                 <div class="error">{{$message}}</div>
                                 @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Task:</label>
+                                <textarea type="text" name="task" wire:model="task" class="form-control" id="taskDescription">{{{ $description ?? '' }}}</textarea>
+                                @error('task') <span class="error">{{ $message }}</span> @enderror
                             </div>
                             <div class="action">
                                 <button class="action-button" type="submit">Get started</button>

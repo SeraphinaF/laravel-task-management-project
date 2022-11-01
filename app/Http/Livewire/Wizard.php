@@ -9,7 +9,7 @@ use App\Models\Category;
 class Wizard extends Component
 {
     public $currentStep = 1;
-    public $project_name, $category_id, $deadline, $task;
+    public $project_name, $category_id, $users_id, $deadline, $task;
     public $successMessage = '';
     public $validatedData;
 
@@ -20,8 +20,9 @@ class Wizard extends Component
      */
     public function render()
     {
+        $project = Project::all();
         $categories = Category::all();
-        return view('livewire.wizard')->withCategories($categories);
+        return view('livewire.wizard')->withCategories($categories)->withProject($project);
     }
 
     /**
@@ -31,7 +32,7 @@ class Wizard extends Component
      */
     public function firstStepSubmit()
     {
-//        dd($this);
+
         $validatedData = $this->validate([
             'project_name' => 'required',
             'category_id' => 'required',
@@ -65,18 +66,26 @@ class Wizard extends Component
         Project::create([
             'project_name' => $this->project_name,
             'category_id' => $this->category_id,
+            'users_id' => $this->users_id,
             'deadline' => $this->deadline,
             'task' => $this->task,
         ]);
+
+        $project = new Project();
+
+        $project->users_id = \Auth::id();
+        $project->project_name = request('project_name');
+        $project->category_id = request('category_id');
+        $project->deadline = request('deadline');
+        $project->task = request('task');
+
+        $project->save();
 
         $this->successMessage = 'Product Created Successfully.';
 
         $this->clearForm();
 
         return redirect()->route('projects.index');
-
-//        $this->currentStep = 1;
-
     }
 
     /**

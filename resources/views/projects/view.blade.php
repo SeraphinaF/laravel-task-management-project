@@ -2,15 +2,16 @@
 
 @section('content')
     <div class="">
-{{--        <a href="{{ route('#') }}">Create new project</a>--}}
-{{--        <a href="{{ route('#') }}">Add new category</a>--}}
+        <a href="{{ route('projects.create') }}">Create new project</a>
     </div>
 
     <form method="put" action="{{url('/search')}}" >
         <input type="text" name="search" placeholder="Find projects">
     </form>
+    <form method="put" action="{{url('/search')}}" >
+        <select type="text" name="search" placeholder="Find projects"></select>
+    </form>
         <table class="">
-
             @foreach($categories as $category)
             <tr>
                 <td>{{$category['name']}}</td>
@@ -25,8 +26,6 @@
                 <td>{{$project['deadline']}}</td>
                 <td><a href="{{ route('show', ['id'=>$project['id']])}}">View</a></td>
                 <td><a href="{{ route('delete', ['id'=> $project['id']])}}">Delete</a></td>
-{{--                href="{{ route('projects.show', $project->id) }}"--}}
-{{--                href="/projects/{{$project->id}}"--}}
             </tr>
             @endforeach
             @endforeach

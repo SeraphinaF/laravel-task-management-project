@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use JetBrains\PhpStorm\NoReturn;
 
 
@@ -18,6 +19,7 @@ class ProjectController extends Controller
 
     public function __construct()
     {
+        $this->middleware('admin')->except('index', 'show');
         $this->middleware('auth');
     }
 
@@ -35,7 +37,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-
+        $projects = Project::all();
+        $categories = Category::all();
+        return view('projects.create', compact('projects','categories'));
     }
 
     /**
@@ -53,8 +57,16 @@ class ProjectController extends Controller
             'task'=>'required',
         ]);
 
+        $project = new Project();
+        $project->users_id = \Auth::id();
+        $project->project_name = request('project_name');
+        $project->category_id = request('category_id');
+        $project->deadline = request('deadline');
+        $project->task = request('task');
+
+        $project->save();
+
         $project = Project::create($request->all());
-        // koppel user id en save
 
         return redirect()->route('projects.index');
 
@@ -77,16 +89,23 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::find($id);
-        $categories = Category::find($id);
-        return view('projects.show')->with('project', $project)->with('categories', $categories);
-    }
 
+        $categories = Category::find($id);
+            return view('projects.show')->with('project', $project)->with('categories', $categories);
+    }
 
     public function edit($id)
     {
         $project = Project::find($id);
-        $categories = Category::all();
-        return view('projects.update')->with('project', $project)->with('categories', $categories);
+        if (\Auth::user()->admin === 1) {
+            $categories = Category::all();
+            return view('projects.update')->with('project', $project)->with('categories', $categories);
+        } elseif ($project['users_id'] === \Auth::id()) {
+            $categories = Category::all();
+            return view('projects.update')->with('project', $project)->with('categories', $categories);
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
     }
 
     /**
@@ -100,21 +119,18 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_name' => 'required',
-            'category_id' => 'required',
             'deadline' => 'required',
             'task'=>'required',
         ]);
 
         $project = Project::find($id);
-
         $project->project_name = $request->input('project_name');
-        $project->category_id = $request->input('category_id');
         $project->deadline = $request->input('deadline');
         $project->task = $request->input('task');
 
         $project->save();
 
-        redirect()->route('projects.show', $project->id);
+        return redirect()->route('projects.show', $project->id);
     }
 
     /**

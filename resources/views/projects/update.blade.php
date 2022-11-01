@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
-    <form  action="{{route('projects.update', [$project->id])}}">
+    <form action="{{route('projects.update', [$project->id])}}" method="post">
         @method('PUT')
-        @csrf
+        @csrf {{ csrf_field() }}
             <div class="form-group">
                 <label for="title">Project Name:</label>
                 <input type="text" name="project_name" wire:model="project_name" class="form-control" id="taskTitle" value="{{$project->project_name}}">
@@ -11,14 +11,13 @@
             </div>
 
 
-            <select name="category_id" wire:model="category_id"  class="input-field">
-                <label for="">Category:</label>
-                @foreach($categories as $category)
-                            <option></option>
-                            <option>{{$category->name}}</option>
-                        @endforeach
-                @error('category') <span class="error">{{ $message }}</span> @enderror
-            </select>
+{{--            <select name="category_id" wire:model="category_id"  class="input-field">--}}
+{{--                <label for="">Category:</label>--}}
+{{--                @foreach($categories as $category)--}}
+{{--                            <option value="{{$category->name}}">{{$category->name}}</option>--}}
+{{--                @endforeach--}}
+{{--                @error('category') <span class="error">{{ $message }}</span> @enderror--}}
+{{--            </select>--}}
 
             <div class="form-group">
                 <label class="input-label">Deadline:</label>
@@ -35,4 +34,14 @@
                 <button class="action-button" type="submit">Edit</button>
             </div>
     </form>
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 @endsection
