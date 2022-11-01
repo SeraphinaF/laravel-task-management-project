@@ -142,12 +142,22 @@ class ProjectController extends Controller
     public function delete($id)
     {
         $project = Project::where('id', $id)->first();
-
         if ($project != null) {
             $project->delete();
             return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
-            }
         }
+//
+//        $projectsCreated = Project::where('users_id', '=', \Auth::id()->count());
+//        if ($projectsCreated > 2) {
+//            if ($project != null) {
+//                $project->delete();
+//                return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
+//            }
+//        } else {
+//            abort(Response::HTTP_FORBIDDEN);
+//        }
+
+    }
 
     public function search (Request $request){
         $search_text =$request->query('search');
