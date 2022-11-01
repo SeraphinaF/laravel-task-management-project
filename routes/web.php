@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('projects', ProjectController::class);
+Route::get('/admin', 'AdminController@index');
 Route::get('/search', [ProjectController::class, 'search']);
 
 Route::get('/wizard', function () {
@@ -26,7 +27,6 @@ Route::get('/wizard', function () {
 });
 
 route::get('/create/project', [App\Http\Livewire\Wizard::class, 'render'])->name('create');
-
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('delete');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('show');
 Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('edit');
