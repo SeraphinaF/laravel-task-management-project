@@ -8,9 +8,20 @@
     <form method="put" action="{{url('/search')}}" >
         <input type="text" name="search" placeholder="Find projects">
     </form>
-    <form method="put" action="{{url('/search')}}" >
-        <select type="text" name="search" placeholder="Find projects"></select>
+
+    <form method="put" action="{{url('/filter')}}" >
+        <select name="category_id">
+            <option value=""></option>
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
+        </select>
+
+        <button type="submit" class="btn btn-secondary">Filter</button>
     </form>
+
+    <a href="{{ route('projects.index' )}}">Clear filters</a>
+
         <table class="">
             @foreach($categories as $category)
             <tr>

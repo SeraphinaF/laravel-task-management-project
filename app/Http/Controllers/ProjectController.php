@@ -66,7 +66,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        $project = Project::create($request->all());
+//        $project = Project::create($request->all());
 
         return redirect()->route('projects.index');
 
@@ -159,9 +159,22 @@ class ProjectController extends Controller
 
     }
 
+    public function filter (Request $request)
+    {
+        $filter_term = $request->query('catergory');
+
+        $projects = Project::where('category', 'like', '%' . $filter_term . '%')->get();
+
+        $categories = Category::all();
+        return view('projects.view', compact('projects', 'categories'));
+    }
+
     public function search (Request $request){
         $search_text =$request->query('search');
-        $projects = Project::where('project_name','like','%'. $search_text. '%')->get();
+
+        $projects = Project::where('project_name','like','%'. $search_text. '%')
+            ->orWhere('Category_id', 'like', '%' .$search_text. '%' )->get();
+
         $categories = Category::all();
         return view( 'projects.view', compact('projects', 'categories'));
     }

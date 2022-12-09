@@ -10,7 +10,6 @@
                 @error('project_name') <span class="error">{{ $message }}</span> @enderror
             </div>
 
-
 {{--            <select name="category_id" wire:model="category_id"  class="input-field">--}}
 {{--                <label for="">Category:</label>--}}
 {{--                @foreach($categories as $category)--}}
