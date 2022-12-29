@@ -15,7 +15,7 @@ class Project extends Model
             'project_name',
             'deadline',
             'user_id',
-            'category_id',
+            'category',
             'task',
             'updated_at',
             'created_at',

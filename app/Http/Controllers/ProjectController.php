@@ -52,7 +52,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_name' => 'required',
-            'category_id' => 'required',
+            'category' => 'required',
             'deadline' => 'required',
             'task'=>'required',
         ]);
@@ -60,7 +60,7 @@ class ProjectController extends Controller
         $project = new Project();
         $project->users_id = \Auth::id();
         $project->project_name = request('project_name');
-        $project->category_id = request('category_id');
+        $project->category = request('category');
         $project->deadline = request('deadline');
         $project->task = request('task');
 
@@ -146,38 +146,26 @@ class ProjectController extends Controller
             $project->delete();
             return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
         }
-//
-//        $projectsCreated = Project::where('users_id', '=', \Auth::id()->count());
-//        if ($projectsCreated > 2) {
+
+        $projectsCreated = Project::where('users_id', '=', \Auth::id()->count());
+        if ($projectsCreated > 2) {
 //            if ($project != null) {
-//                $project->delete();
-//                return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
-//            }
-//        } else {
-//            abort(Response::HTTP_FORBIDDEN);
-//        }
-
+                $project->delete();
+                return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
     }
 
-    public function filter (Request $request)
+    public function search(Request $request)
     {
-        $filter_term = $request->query('catergory');
+        $searchTerm = $request->query('text');
 
-        $projects = Project::where('category', 'like', '%' . $filter_term . '%')->get();
+        $projects = Project::where('project_name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('category', $searchTerm)
+            ->get();
 
-        $categories = Category::all();
-        return view('projects.view', compact('projects', 'categories'));
+        return view('projects.view',compact('projects'));
     }
-
-    public function search (Request $request){
-        $search_text =$request->query('search');
-
-        $projects = Project::where('project_name','like','%'. $search_text. '%')
-            ->orWhere('Category_id', 'like', '%' .$search_text. '%' )->get();
-
-        $categories = Category::all();
-        return view( 'projects.view', compact('projects', 'categories'));
-    }
-
 }
 
