@@ -18,8 +18,10 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         if (\Auth::user()->admin !== 1){
-            abort(Response::HTTP_FORBIDDEN);
+            return $next($request);
         }
-        return $next($request);
+//        else {
+//            return redirect()->route('admin.index');
+//        }
     }
 }

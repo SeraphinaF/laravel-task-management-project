@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\Authenticate;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,18 +16,31 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+//    public function __construct()
+//    {
+//
+//        $this->middleware('auth');
+//    }
 
-    public function __construct()
-    {
-        $this->middleware('admin')->except('index', 'show');
-        $this->middleware('auth');
-    }
+//    public function redirectAdmin(Request $request)
+//    {
+//        if ($request->user()->role === 'admin') {
+//            return redirect()->action('AdminController@show');
+//        } else {
+//            return redirect()->route('index');
+//        }
+//    }
 
     public function index()
     {
-        $projects = Project::all();
-        $categories = Category::all();
-        return view('projects.view', compact('projects','categories'));
+
+        $user = Auth::user();
+        $projects = Project::where('users_id','=', $user->id)->get();
+//        $projects = Project::where([
+//            'user_id' => $user->id,
+//            'visible' => 1
+//        ])->get();
+        return view('projects.view', compact('projects',));
     }
 
     /**
@@ -38,8 +51,7 @@ class ProjectController extends Controller
     public function create()
     {
         $projects = Project::all();
-        $categories = Category::all();
-        return view('projects.create', compact('projects','categories'));
+        return view('projects.create', compact('projects'));
     }
 
     /**
@@ -54,7 +66,7 @@ class ProjectController extends Controller
             'project_name' => 'required',
             'category' => 'required',
             'deadline' => 'required',
-            'task'=>'required',
+            'task'=>'required'
         ]);
 
         $project = new Project();
@@ -65,11 +77,7 @@ class ProjectController extends Controller
         $project->task = request('task');
 
         $project->save();
-
-//        $project = Project::create($request->all());
-
         return redirect()->route('projects.index');
-
     }
 
     /**
@@ -78,6 +86,12 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
+    public function show($id)
+    {
+        $project = Project::find($id);
+        return view('projects.show', compact('project'));
+
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -86,12 +100,20 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id)
+    public function hide($id)
     {
         $project = Project::find($id);
+        $project->visible = 0;
+        $project->save();
+        return back();
+    }
 
-        $categories = Category::find($id);
-            return view('projects.show')->with('project', $project)->with('categories', $categories);
+    public function showAgain($id)
+    {
+        $project = Project::find($id);
+        $project->visible = 1;
+        $project->save();
+        return back();
     }
 
     public function edit($id)
@@ -146,16 +168,16 @@ class ProjectController extends Controller
             $project->delete();
             return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
         }
-
-        $projectsCreated = Project::where('users_id', '=', \Auth::id()->count());
-        if ($projectsCreated > 2) {
-//            if ($project != null) {
-                $project->delete();
-                return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
-        } else {
-            abort(Response::HTTP_FORBIDDEN);
-        }
     }
+//        $projectsCreated = Project::where('users_id', '=', \Auth::id()->count());
+//        if ($projectsCreated > 2) {
+//            if ($project != null) {
+//                $project->delete();
+//                return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
+//        } else {
+//            abort(Response::HTTP_FORBIDDEN);
+//        }
+//   }
 
     public function search(Request $request)
     {

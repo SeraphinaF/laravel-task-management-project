@@ -4,7 +4,7 @@
     <div class="">
         <a href="{{ route('projects.create') }}" class="btn btn-primary">Create new project</a>
     </div>
-
+    <h1>Welcome Admin</h1>
     <form method="put" action="{{url('/search')}}" >
         <input type="text" name="search" placeholder="Find projects">
     </form>
@@ -38,7 +38,17 @@
         @endforeach
     </table>
     </div>
-    <div class="project-count">
-        <h3>Hi admin, there are 3 projects at the moment!</h3>
+
+    <div>
+        <table>
+            <tr>
+                <td><strong>User</strong></td>
+                <td><strong>Email</strong></td>
+            </tr>
+            <tr>
+                <td>{{$user['name']}}</td>
+                <td>{{$user['email']}}</td>
+            </tr>
+        </table>
     </div>
 @endsection

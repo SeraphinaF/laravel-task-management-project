@@ -30,7 +30,7 @@
                 @error('task') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="action">
-                <button class="action-button" type="submit">Edit</button>
+                <button class="btn btn-success" type="submit">Edit</button>
             </div>
     </form>
 

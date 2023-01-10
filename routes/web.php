@@ -19,10 +19,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('projects', ProjectController::class);
+//->middleware('admin');
 Route::get('/search', [ProjectController::class, 'search']);
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('delete');
-Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('show');
-Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('edit');
+//Route::get('/projects/{id}', [ProjectController::class, 'view'])->name('view');
+//Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('edit');
+Route::get('ShowAgain/{id}', [ProjectController::class,'showAgain'])->name('showAgain');
+Route::get('hide/{id}', [ProjectController::class,'hide'])->name('hide');
 Auth::routes();
+
+//
+//Route::get('/admin',[ProjectController::class, 'index'])->name('admin.index')->middleware('admin');
+//Route::get('/showUser',[ProjectController::class, 'showUser'])->name('admin.showUser')->middleware('admin');
 
 
