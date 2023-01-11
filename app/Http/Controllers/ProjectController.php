@@ -16,30 +16,16 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-//    public function __construct()
-//    {
-//
-//        $this->middleware('auth');
-//    }
-
-//    public function redirectAdmin(Request $request)
-//    {
-//        if ($request->user()->role === 'admin') {
-//            return redirect()->action('AdminController@show');
-//        } else {
-//            return redirect()->route('index');
-//        }
-//    }
+    public function __construct()
+    {
+        $this->middleware('admin');
+        $this->middleware('auth');
+    }
 
     public function index()
     {
-
         $user = Auth::user();
         $projects = Project::where('users_id','=', $user->id)->get();
-//        $projects = Project::where([
-//            'user_id' => $user->id,
-//            'visible' => 1
-//        ])->get();
         return view('projects.view', compact('projects',));
     }
 
@@ -86,7 +72,7 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function view($id)
     {
         $project = Project::find($id);
         return view('projects.show', compact('project'));
@@ -103,9 +89,15 @@ class ProjectController extends Controller
     public function hide($id)
     {
         $project = Project::find($id);
-        $project->visible = 0;
-        $project->save();
-        return back();
+        $projectCount = $project->count();
+        if($projectCount>2) {
+            $project->visible = 0;
+            $project->save();
+            return back();
+        }else{
+         session()->flash('error', 'Sorry, you will need at least 2 projects before you can hide one.' );
+         return back();
+        }
     }
 
     public function showAgain($id)
@@ -169,15 +161,6 @@ class ProjectController extends Controller
             return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
         }
     }
-//        $projectsCreated = Project::where('users_id', '=', \Auth::id()->count());
-//        if ($projectsCreated > 2) {
-//            if ($project != null) {
-//                $project->delete();
-//                return redirect()->route('projects.index')->with(['message' => 'Successfully deleted!']);
-//        } else {
-//            abort(Response::HTTP_FORBIDDEN);
-//        }
-//   }
 
     public function search(Request $request)
     {

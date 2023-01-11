@@ -10,14 +10,6 @@
                 @error('project_name') <span class="error">{{ $message }}</span> @enderror
             </div>
 
-{{--            <select name="category_id" wire:model="category_id"  class="input-field">--}}
-{{--                <label for="">Category:</label>--}}
-{{--                @foreach($categories as $category)--}}
-{{--                            <option value="{{$category->name}}">{{$category->name}}</option>--}}
-{{--                @endforeach--}}
-{{--                @error('category') <span class="error">{{ $message }}</span> @enderror--}}
-{{--            </select>--}}
-
             <div class="form-group">
                 <label class="input-label">Deadline:</label>
                 <input type="datetime-local" name="deadline"  wire:model="deadline" class="form-control"  id="taskDescription" value="{{$project->deadline}}">

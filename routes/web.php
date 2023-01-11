@@ -1,7 +1,6 @@
 <?php
 
 use \App\Http\Controllers\ProjectController;
-use \App\Http\Controllers\CategoryController;
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\AdminLoginController;
 //use \App\Http\Controllers\HomeController;
@@ -17,19 +16,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::middleware(['admin'])->group(function () {
 Route::resource('projects', ProjectController::class);
-//->middleware('admin');
+Auth::routes();
 Route::get('/search', [ProjectController::class, 'search']);
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('delete');
-//Route::get('/projects/{id}', [ProjectController::class, 'view'])->name('view');
-//Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('edit');
+Route::get('/projects/{id}', [ProjectController::class, 'view'])->name('view');
 Route::get('ShowAgain/{id}', [ProjectController::class,'showAgain'])->name('showAgain');
 Route::get('hide/{id}', [ProjectController::class,'hide'])->name('hide');
-Auth::routes();
 
-//
-//Route::get('/admin',[ProjectController::class, 'index'])->name('admin.index')->middleware('admin');
-//Route::get('/showUser',[ProjectController::class, 'showUser'])->name('admin.showUser')->middleware('admin');
+//Admin Routes
+Route::get('/admin',[AdminController::class, 'index'])->name('admin.index');
+Route::get('/showUser',[AdminController::class, 'showUser'])->name('admin.showUser');
+Route::get('/deleteUser/{id}',[AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+Route::get('/userCount', [AdminController::class, 'userCount'])->name('admin.users');
+});
 
 

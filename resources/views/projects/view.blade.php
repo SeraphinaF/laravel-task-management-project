@@ -33,7 +33,7 @@
                         <td>{{$project['project_name']}}</td>
                         <td>{{$project['category']}}</td>
                         <td>{{$project['deadline']}}</td>
-                        <td><a href="{{ route('projects.show', $project->id)}}" class="btn btn-primary">View</a></td>
+                        <td><a href="{{ route('view', $project->id)}}" class="btn btn-primary">View</a></td>
                         <td><a href="{{ route('hide', $project->id)}}" class="btn btn">Hide</a></td>
                         <td><a href="{{ route('delete', $project->id)}}" class="btn btn-danger">Delete</a></td>
                     </tr>
@@ -49,31 +49,16 @@
                         <td>{{$project['project_name']}}</td>
                         <td>{{$project['category']}}</td>
                         <td>{{$project['deadline']}}</td>
-                        <td><a href="{{ route('projects.show', $project->id)}}" class="btn btn-primary">View</a></td>
+                        <td><a href="{{ route('view', $project->id)}}" class="btn btn-primary">View</a></td>
                         <td><a href="{{ route('showAgain', $project->id)}}" class="btn btn-success">Show</a></td>
                         <td><a href="{{ route('delete', $project->id)}}" class="btn btn-danger">Delete</a></td>
                     </tr>
             </table>
       @endif
     @endforeach
-
-{{--        <table>--}}
-{{--            <tr>--}}
-{{--                <td><strong>Project Name</strong></td>--}}
-{{--                <td><strong>Category</strong></td>--}}
-{{--                <td><strong>Deadline</strong></td>--}}
-{{--            </tr>--}}
-{{--                @foreach($projects as $project)--}}
-{{--            <tr>--}}
-{{--                <td>{{$project['project_name']}}</td>--}}
-{{--                <td>{{$project['category']}}</td>--}}
-{{--                <td>{{$project['deadline']}}</td>--}}
-{{--                <td><a href="{{ route('show', ['id'=>$project['id']])}}" class="btn btn-primary">View</a></td>--}}
-{{--                <td><a href="{{ route('delete', ['id'=> $project['id']])}}" class="btn btn-danger">Delete</a></td>--}}
-{{--                <td><a href="{{ route('activate', ['id'=> $project['id']])}}" class="btn btn-success">Activate</a></td>--}}
-{{--                <td><a href="{{ route('deactivate', ['id'=> $project['id']])}}" class="btn btn-danger">Deactivate</a></td>--}}
-{{--            </tr>--}}
-{{--            @endforeach--}}
-{{--        </table>--}}
-{{--    </div>--}}
+    @if(Session::has('error'))
+        <div class="alert alert-danger">
+            {{Session::get('error')}}
+        </div>
+    @endif
 @endsection
